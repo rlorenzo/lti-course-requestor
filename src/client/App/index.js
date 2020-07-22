@@ -110,6 +110,69 @@ const App = () => {
   );
 };
 
+const courses = [
+  {
+    requestID: '1',
+    offeredTermCode: '20S',
+    classID: '943543186',
+    subjectAreaCode: 'COM SCI',
+    courseCatalogNumberDisplay: '32',
+    classNumber: '1',
+    timeRequested: '987654312456',
+    status: 'To be built',
+    emailInstructors: false,
+    sendUrl: true,
+    toBeBuilt: true,
+    classType: 'ugrad',
+    crosslistedCourses: [],
+  }, {
+    requestID: '2',
+    offeredTermCode: '20S',
+    classID: '123456789',
+    subjectAreaCode: 'COM SCI',
+    courseCatalogNumberDisplay: '31',
+    classNumber: '1',
+    timeRequested: '951487263012',
+    status: 'To be built',
+    emailInstructors: false,
+    sendUrl: true,
+    toBeBuilt: true,
+    classType: 'grad',
+    crosslistedCourses: [
+      {
+        offeredTermCode: '20S',
+        classID: '123456789',
+        subjectAreaCode: 'AF AMER',
+        courseCatalogNumberDisplay: '23',
+        classNumber: '1',
+      },
+    ],
+  },
+  {
+    requestID: '3',
+    offeredTermCode: '20S',
+    classID: '789012345',
+    subjectAreaCode: 'COM SCI',
+    courseCatalogNumberDisplay: '33',
+    classNumber: '1',
+    timeRequested: '123412341234',
+    status: 'To be built',
+    emailInstructors: false,
+    sendUrl: true,
+    toBeBuilt: true,
+    classType: 'tut',
+    crosslistedCourses: [
+      {
+        offeredTermCode: '20S',
+        classID: '123456789',
+        subjectAreaCode: 'AERO ST',
+        courseCatalogNumberDisplay: '21',
+        classNumber: '1',
+      },
+    ],
+  },
+];
+
 const UserCenter = ({ members, retrieveMembers, showUsers }) => {
   const [chosenMember, chooseMember] = React.useState({});
 
@@ -117,7 +180,7 @@ const UserCenter = ({ members, retrieveMembers, showUsers }) => {
 
   return (
     <View as="div" margin="auto">
-      <CourseRequestForm courses={[]}></CourseRequestForm>
+      <CourseRequestForm courses={courses}></CourseRequestForm>
     </View>
   );
 };
