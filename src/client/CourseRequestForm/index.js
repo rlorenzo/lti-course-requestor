@@ -37,60 +37,69 @@ const CourseRequestForm = ({courses}) => {
     const SettingCheckbox = ({isChecked}) => (
         isChecked ? <Checkbox label='' size='small' defaultChecked/> : <Checkbox label='' size='small'/>
     );
-    function chooseRowStyling (type) {
-        if (classTypeFilter.includes('ugrad') && type === 'ugrad') {
-            return constants.ugradRow;
-        } else if (classTypeFilter.includes('grad') && type === 'grad') {
-            return constants.gradRow;
-        } else if (classTypeFilter.includes('tut') && type === 'tut') {
-            return constants.tutRow;
-        }
-        return {};
-    };
-    const [classTypeFilter, setClassTypeFilter] = useState(['ugrad', 'grad', 'tut']);
+
+    const [classTypeStyling, setClassTypeStyling] = React.useState({
+        'ugrad': constants.ugradRow,
+        'grad': constants.gradRow,
+        'tut': constants.tutRow,
+    });
     const handleClassTypeFilter = ((toggleClassType, event) => {
-        console.log(toggleClassType);
-        const indexToRemove = classTypeFilter.indexOf(toggleClassType);
-        if (indexToRemove === -1) {
-            classTypeFilter.push(toggleClassType);
-        } else {
-            classTypeFilter.splice(indexToRemove, 1);
+        let updatedClassTypeStyling = classTypeStyling;
+        if (toggleClassType == 'ugrad') {
+            if ((updatedClassTypeStyling['ugrad'].background == constants.ugradRow.background) && (updatedClassTypeStyling['ugrad'].color == constants.ugradRow.color)) {
+                updatedClassTypeStyling['ugrad'] = {};
+            } else {
+                updatedClassTypeStyling['ugrad'] = constants.ugradRow;
+            }
+        } else if (toggleClassType == 'grad') {
+            if ((updatedClassTypeStyling['grad'].background == constants.gradRow.background) && (updatedClassTypeStyling['grad'].color == constants.gradRow.color)) {
+                updatedClassTypeStyling['grad'] = {};
+            } else {
+                updatedClassTypeStyling['grad'] = constants.gradRow;
+            }
+        } else if (toggleClassType == 'tut') {
+            if ((updatedClassTypeStyling['tut'].background === constants.tutRow.background) && (updatedClassTypeStyling['tut'].color === constants.tutRow.color)) {
+                updatedClassTypeStyling['tut'] = {};
+            } else {
+                updatedClassTypeStyling['tut'] = constants.tutRow;
+            }
         }
-        setClassTypeFilter(classTypeFilter);
-        console.log(classTypeFilter);
-    })
+        setClassTypeStyling(updatedClassTypeStyling);
+        console.log(classTypeStyling);
+    });
+    const classTypeFilter = ['ugrad', 'grad', 'tut'];
     const courseListings = courses.map((course, index) => (
         <Table.Row key={index}>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{course.requestID}</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{course.offeredTermCode}</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{course.classID}</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{course.subjectAreaCode}</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{ course.courseCatalogNumberDisplay + '-' + course.classNumber }</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{course.requestID}</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{course.offeredTermCode}</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{course.classID}</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{course.subjectAreaCode}</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{ course.courseCatalogNumberDisplay + '-' + course.classNumber }</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>
                 <CrossListings term={course.offeredTermCode} courseInfoList={course.crosslistedCourses}></CrossListings>
                 <TextInput width='200px' renderLabel=''/>
                 <Button>Add additional Class ID</Button>
             </Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{course.timeRequested}</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{course.timeRequested}</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>
                 <TextInput width='200px' type='email' renderLabel=''/>
             </Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>{course.status}</Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>
+            <Table.Cell theme={classTypeStyling[course.classType]}>{course.status}</Table.Cell>
+            <Table.Cell theme={classTypeStyling[course.classType]}>
                 <Flex justifyItems='center'>
                     <Flex.Item>
                         <SettingCheckbox isChecked={course.emailInstructors}></SettingCheckbox>
                     </Flex.Item>
                 </Flex>
             </Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>
+            <Table.Cell theme={classTypeStyling[course.classType]}>
                 <Flex justifyItems='center'>
                     <Flex.Item>
                         <SettingCheckbox isChecked={course.sendUrl}></SettingCheckbox>
                     </Flex.Item>
                 </Flex>
             </Table.Cell>
-            <Table.Cell theme={chooseRowStyling(course.classType)}>
+            <Table.Cell theme={classTypeStyling[course.classType]}>
                 <Flex justifyItems='center'>
                     <Flex.Item>
                         <SettingCheckbox isChecked={course.toBeBuilt}></SettingCheckbox>
